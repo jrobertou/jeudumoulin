@@ -4,6 +4,7 @@ function UI(game) {
   this.init_game_listeners();
   this.init_data_places();
   this.init_places_listeners();
+  this.moving_piece = null;
 }
 
 UI.prototype.$board = function() {
@@ -63,25 +64,41 @@ UI.prototype.init_places_listeners = function() {
 UI.prototype.place_listener = function($place) {
   var place = $($place).data('place');
   var player = this.game.current_player;
-  if (this.players.indexOf(player) != -1) // not AI
+  switch(this.game.state)
   {
-    switch(this.game.state)
-    {
-      case GameState.FIRST_STAGE:
-        switch(player.state)
-        {
-          case PlayerState.HAS_TO_PLAY:
-            player.place_piece_on_board(place);
-            break;
-          case PlayerState.HAS_TO_CAPTURE:
-            player.capture_piece(place.piece);
-            break;
-        }
-        break;
-      case GameState.SECOND_STAGE:
-        console.log('Place Listener: Second Stage!');
-        break;
-    }
+    case GameState.FIRST_STAGE:
+      switch(player.state)
+      {
+        case PlayerState.HAS_TO_PLAY:
+          player.place_piece_on_board(place);
+          break;
+        case PlayerState.HAS_TO_CAPTURE:
+          player.capture_piece(place.piece);
+          break;
+      }
+      break;
+    case GameState.SECOND_STAGE:
+      switch(player.state)
+      {
+        case PlayerState.HAS_TO_PLAY:
+          if (place.piece) {
+            if (place.piece == this.moving_piece) {
+              this.moving_piece = null;
+            } else if (place.piece.player == player) {
+              this.moving_piece = place.piece;
+            }
+            this.draw_pieces();
+          } else if (this.moving_piece) {
+            player.move_piece(this.moving_piece, place);
+            this.moving_piece = null;
+            this.draw_pieces();
+          }
+          break;
+        case PlayerState.HAS_TO_CAPTURE:
+          player.capture_piece(place.piece);
+          break;
+      }
+      break;
   }
 };
 
@@ -101,15 +118,18 @@ UI.prototype.on_mill_formed = function() {
 
 UI.prototype.draw_pieces = function() {
   var ui = this;
+  var $piece = null;
   $.each(this.game.board.places, function() {
+    $piece = ui.$piece_for_place(this);
     if (this.piece) {
-      ui.$piece_for_place(this)
-        .removeClass()
+      $piece.removeClass()
         .addClass('piece ' + this.piece.player.color)
-        .text('X');
+        .text('x');
+      if (this.piece === ui.moving_piece) {
+        $piece.addClass('moving');
+      }
     } else {
-      ui.$piece_for_place(this)
-        .removeClass()
+      $piece.removeClass()
         .addClass('piece')
         .text(' ');
     }
