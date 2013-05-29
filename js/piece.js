@@ -12,17 +12,19 @@ function Piece(game, player) {
 }
 
 Piece.prototype.place_on_board = function(place) {
-  console.log(place);
   this.place = place;
+  place.piece = this;
   this.state = PieceState.ON_BOARD;
 };
 
 Piece.prototype.move = function(place) {
   this.place = place;
+  place.piece = this;
 };
 
 Piece.prototype.capture = function() {
   this.place = null;
+  place.piece = null;
   this.state = PieceState.CAPTURED;
 };
 
@@ -41,6 +43,10 @@ Piece.prototype.can_move = function() {
   }
 
   return can_move;
+};
+
+Piece.prototype.can_be_placed_on = function(place) {
+  return place.is_empty();
 };
 
 Piece.prototype.can_move_to = function(place) {

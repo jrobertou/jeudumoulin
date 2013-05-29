@@ -30,8 +30,9 @@ Game.prototype.switch_current_player = function() {
 };
 
 Game.prototype.check_win = function() { // to do when players are switched
-  if (this.state === GameState.FIRST_STATE)
+  if (this.state === GameState.FIRST_STAGE) {
     return null;
+  }
 
   var winner = null;
 
@@ -47,7 +48,7 @@ Game.prototype.check_win = function() { // to do when players are switched
 };
 
 Game.prototype.check_draw = function() {
-  if (this.state == GameState.FIRST_STATE) {
+  if (this.state === GameState.FIRST_STAGE) {
     return false;
   }
 

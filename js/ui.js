@@ -26,13 +26,13 @@ UI.prototype.$infos = function() {
 UI.prototype.init_game_listeners = function() {
   var ui = this;
   this.game.on_end_of_turn = function() {
-    ui.on_end_of_turn(ui);
+    ui.on_end_of_turn();
   };
   this.game.on_end_of_game = function() {
-    ui.on_end_of_game(ui);
+    ui.on_end_of_game();
   };
   this.game.on_mill_formed = function() {
-    ui.on_mill_formed(ui);
+    ui.on_mill_formed();
   };
 };
 
@@ -63,22 +63,25 @@ UI.prototype.place_listener = function($place) {
       this.game.current_player.place_piece_on_board(place);
       break;
     case GameState.SECOND_STAGE:
-
+      console.log('Second Stage');
       break;
     case GameState.ENDED:
+      console.log('Game Ended');
       break;
+    default:
   }
 };
 
-UI.prototype.on_end_of_turn = function(ui) {
-  ui.draw_pieces();
+UI.prototype.on_end_of_turn = function() {
+  console.log('EOT');
+  this.draw_pieces();
 };
 
-UI.prototype.on_end_of_game = function(ui) {
-
+UI.prototype.on_end_of_game = function() {
+  console.log('EOG');
 };
 
-UI.prototype.on_mill_formed = function(ui) {
+UI.prototype.on_mill_formed = function() {
 
 };
 

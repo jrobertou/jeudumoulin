@@ -60,8 +60,12 @@ Player.prototype.end_turn = function() {
 };
 
 Player.prototype.place_piece_on_board = function(place) { // first stage
-  this.pieces_to_play()[0].place_on_board(place);
-  this.end_turn();
+  var piece = this.pieces_to_play()[0];
+
+  if (piece.can_be_placed_on(place)) {
+    piece.place_on_board(place);
+    this.end_turn();
+  }
 };
 
 Player.prototype.move_piece = function(piece, place) { // second stage
