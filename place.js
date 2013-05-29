@@ -2,6 +2,7 @@ function Place(game) {
   this.game = game;
   this.piece = null;
   this.adjacent_places = null;
+  this.mill_places = null;
 }
 
 Place.prototype.is_occupied = function() {

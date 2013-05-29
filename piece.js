@@ -47,5 +47,25 @@ Piece.prototype.can_move_to = function(place) {
 };
 
 Piece.prototype.forms_mill = function() {
+  var forms_mill = false;
 
+  var mills_places = this.place.mills_places;
+  var line = null;
+  var place = null;
+  var line_complete = null;
+
+  for (var i = 0; i < mills_places.length; i++) {
+    line = mill_places[i];
+    line_complete = true;
+    for (var j = 0; j < line.length; j++) {
+      place = line[j];
+      line_complete = (line_complete && place.is_occupied() && place.piece.player == this.player);
+    }
+    if (line_complete) {
+      forms_mill = true;
+      break;
+    }
+  }
+
+  return forms_mill;
 };
