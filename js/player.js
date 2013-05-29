@@ -22,28 +22,28 @@ Player.prototype.captured_pieces = function() {
 };
 
 Player.prototype.pieces_filtered_by_state = function(state) {
-  var pieces_to_play = [];
+  var filtered_pieces = [];
   var piece = null;
   for (var i = 0; i < this.pieces.length; i++) {
     piece = this.pieces[i];
 
     if (piece.state === state) {
-      pieces_to_play.push(piece);
+      filtered_pieces.push(piece);
     }
   }
-  return pieces_to_play;
+  return filtered_pieces;
 };
 
 Player.prototype.can_move = function() {
   if (this.pieces_on_board().length <= 3)
     return true;
 
-  var can_move = true;
+  var can_move = false;
 
   var pieces_on_board = this.pieces_on_board();
   for (var i = 0; i < pieces_on_board.length; i++) {
-    if (pieces_on_board[i].can_move() === false) {
-      can_move = false;
+    if (pieces_on_board[i].can_move() === true) {
+      can_move = true;
       break;
     }
   }

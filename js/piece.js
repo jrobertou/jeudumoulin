@@ -32,12 +32,12 @@ Piece.prototype.can_move = function() {
   if (this.player.pieces_on_board().length <= 3)
     return true;
 
-  var can_move = true;
+  var can_move = false;
 
   var adjacent_places = this.place.adjacent_places;
   for (var i = 0; i < adjacent_places.length; i++) {
-    if (adjacent_places[i].is_occupied()) {
-      can_move = false;
+    if (adjacent_places[i].is_empty()) {
+      can_move = true;
       break;
     }
   }
