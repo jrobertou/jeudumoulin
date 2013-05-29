@@ -57,18 +57,23 @@ UI.prototype.init_places_listeners = function() {
 
 UI.prototype.place_listener = function($place) {
   var place = $($place).data('place');
+  var player = this.game.current_player;
   switch(this.game.state)
   {
     case GameState.FIRST_STAGE:
-      this.game.current_player.place_piece_on_board(place);
+      switch(player.state)
+      {
+        case PlayerState.HAS_TO_PLAY:
+          player.place_piece_on_board(place);
+          break;
+        case PlayerState.HAS_TO_CAPTURE:
+          player.capture_piece(place.piece);
+          break;
+      }
       break;
     case GameState.SECOND_STAGE:
-      console.log('Second Stage');
+      console.log('Place Listener: Second Stage!');
       break;
-    case GameState.ENDED:
-      console.log('Game Ended');
-      break;
-    default:
   }
 };
 
@@ -82,17 +87,23 @@ UI.prototype.on_end_of_game = function() {
 };
 
 UI.prototype.on_mill_formed = function() {
-
+  console.log('MILL FORMED!!');
+  this.draw_pieces();
 };
 
 UI.prototype.draw_pieces = function() {
   var ui = this;
-  $.each(this.game.players, function() {
-    $.each(this.pieces_on_board(), function() {
-      ui.$piece_for_place(this.place)
+  $.each(this.game.board.places, function() {
+    if (this.piece) {
+      ui.$piece_for_place(this)
         .removeClass()
-        .addClass('piece ' + this.player.color)
+        .addClass('piece ' + this.piece.player.color)
         .text('X');
-    });
+    } else {
+      ui.$piece_for_place(this)
+        .removeClass()
+        .addClass('piece')
+        .text(' ');
+    }
   });
 };

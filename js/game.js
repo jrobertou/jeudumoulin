@@ -8,6 +8,7 @@ function Game() {
   this.players = [new Player(this, "Alice", "green"), new Player(this, "Bob", "red")];
   this.board = new Board(this);
   this.current_player = this.players[0];
+  this.current_player.begin_turn();
   this.state = GameState.FIRST_STAGE;
   this.winner = null;
   this.on_end_of_turn = function(){};
@@ -25,8 +26,40 @@ Game.prototype.other_player = function(player) {
   }
 };
 
-Game.prototype.switch_current_player = function() {
+Game.prototype.begin_turn = function() {
   this.current_player = this.other_player(this.current_player);
+  this.current_player.begin_turn();
+};
+
+Game.prototype.end_turn = function() {
+  // Check start of second stage
+  if (this.state === GameState.FIRST_STAGE &&
+      this.players[0].pieces_to_play().length === 0 &&
+      this.players[1].pieces_to_play().length === 0)
+  {
+    this.state = GameState.SECOND_STAGE;
+  }
+
+  // Trigger end of turn callback
+  this.on_end_of_turn();
+
+  // Begin turn
+  this.begin_turn();
+
+  // Check win or draw to potentially end the game
+  var winner = this.check_win();
+  if(winner !== null) {
+    this.winner = winner;
+    this.end_game();
+  }
+  else if (this.check_draw() === true) {
+    this.end_game();
+  }
+};
+
+Game.prototype.end_game = function() {
+  this.state = GameState.ENDED;
+  this.on_end_of_game();
 };
 
 Game.prototype.check_win = function() { // to do when players are switched
@@ -53,33 +86,4 @@ Game.prototype.check_draw = function() {
   }
 
   return false;
-};
-
-Game.prototype.end_turn = function() {
-  // Check start of second stage
-  if (this.state === GameState.FIRST_STAGE &&
-      this.players[0].pieces_to_play().length === 0 &&
-      this.players[1].pieces_to_play().length === 0)
-  {
-    this.state = GameState.SECOND_STAGE;
-  }
-
-  // Switch player and trigger end of turn callback
-  this.switch_current_player();
-  this.on_end_of_turn();
-
-  // Check win or draw to potentially end the game
-  var winner = this.check_win();
-  if(winner !== null) {
-    this.winner = winner;
-    this.end_game();
-  }
-  else if (this.check_draw() === true) {
-    this.end_game();
-  }
-};
-
-Game.prototype.end_game = function() {
-  this.state = GameState.ENDED;
-  this.on_end_of_game();
 };

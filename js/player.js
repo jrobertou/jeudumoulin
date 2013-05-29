@@ -1,7 +1,15 @@
+var PlayerState = {
+  WAITING: 0,
+  HAS_TO_PLAY: 1,
+  HAS_TO_CAPTURE: 2
+};
+
 function Player(game, name, color) {
   this.game = game;
   this.name = name;
   this.color = color;
+
+  this.state = PlayerState.WAITING;
 
   this.pieces = [];
   for (var i = 0; i < 9; i++) {
@@ -51,34 +59,61 @@ Player.prototype.can_move = function() {
   return can_move;
 };
 
+Player.prototype.begin_turn = function() {
+  this.state = PlayerState.HAS_TO_PLAY;
+};
+
 Player.prototype.on_mill_formed = function() {
+  this.state = PlayerState.HAS_TO_CAPTURE;
   this.game.on_mill_formed();
 };
 
 Player.prototype.end_turn = function() {
+  this.state = PlayerState.WAITING;
   this.game.end_turn();
 };
 
 Player.prototype.place_piece_on_board = function(place) { // first stage
+  if (this.game.state !== GameState.FIRST_STAGE || this.state !== PlayerState.HAS_TO_PLAY) {
+    return false;
+  }
+
   var piece = this.pieces_to_play()[0];
 
-  if (piece.can_be_placed_on(place)) {
+  if (piece && piece.can_be_placed_on(place)) {
     piece.place_on_board(place);
-    this.end_turn();
+
+    if(piece.forms_mill()) {
+      this.on_mill_formed();
+    } else {
+      this.end_turn();
+    }
   }
 };
 
 Player.prototype.move_piece = function(piece, place) { // second stage
-  piece.move(place);
+  if (this.game.state !== GameState.SECOND_STAGE || this.state !== PlayerState.HAS_TO_PLAY) {
+    return false;
+  }
 
-  if(piece.forms_mill()) {
-    this.on_mill_formed();
-  } else {
-    this.end_turn();
+  if (piece && piece.can_move_to(place)) {
+    piece.move(place);
+
+    if(piece.forms_mill()) {
+      this.on_mill_formed();
+    } else {
+      this.end_turn();
+    }
   }
 };
 
 Player.prototype.capture_piece = function(piece) {
-  piece.capture();
-  this.end_turn();
+  if ((this.game.state !== GameState.FIRST_STAGE && this.game.state !== GameState.SECOND_STAGE) ||
+    this.state !== PlayerState.HAS_TO_CAPTURE) {
+    return false;
+  }
+  if (piece && piece.can_be_captured()) {
+    piece.capture();
+    this.end_turn();
+  }
 };

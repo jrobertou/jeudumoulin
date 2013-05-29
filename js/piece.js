@@ -12,25 +12,32 @@ function Piece(game, player) {
 }
 
 Piece.prototype.place_on_board = function(place) {
-  this.place = place;
-  place.piece = this;
-  this.state = PieceState.ON_BOARD;
+  if (this.can_be_placed_on(place)) {
+    this.place = place;
+    place.piece = this;
+    this.state = PieceState.ON_BOARD;
+  }
 };
 
 Piece.prototype.move = function(place) {
-  this.place = place;
-  place.piece = this;
+  if (this.can_move_to(place)) {
+    this.place = place;
+    place.piece = this;
+  }
 };
 
 Piece.prototype.capture = function() {
-  this.place = null;
-  place.piece = null;
-  this.state = PieceState.CAPTURED;
+  if (this.can_be_captured()) {
+    this.place.piece = null;
+    this.place = null;
+    this.state = PieceState.CAPTURED;
+  }
 };
 
 Piece.prototype.can_move = function() {
-  if (this.player.pieces_on_board().length <= 3)
+  if (this.player.pieces_on_board().length <= 3) {
     return true;
+  }
 
   var can_move = false;
 
@@ -60,12 +67,12 @@ Piece.prototype.can_be_captured = function() {
 Piece.prototype.forms_mill = function() {
   var forms_mill = false;
 
-  var mills_places = this.place.mills_places;
+  var mill_places = this.place.mill_places;
   var line = null;
   var place = null;
   var line_complete = null;
 
-  for (var i = 0; i < mills_places.length; i++) {
+  for (var i = 0; i < mill_places.length; i++) {
     line = mill_places[i];
     line_complete = true;
     for (var j = 0; j < line.length; j++) {
