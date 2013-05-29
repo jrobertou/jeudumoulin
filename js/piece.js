@@ -12,6 +12,7 @@ function Piece(game, player) {
 }
 
 Piece.prototype.place_on_board = function(place) {
+  console.log(place);
   this.place = place;
   this.state = PieceState.ON_BOARD;
 };
@@ -48,7 +49,7 @@ Piece.prototype.can_move_to = function(place) {
 
 Piece.prototype.can_be_captured = function() {
   return !this.forms_mill();
-}
+};
 
 Piece.prototype.forms_mill = function() {
   var forms_mill = false;

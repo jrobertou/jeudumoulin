@@ -5,7 +5,7 @@ var GameState = {
 };
 
 function Game() {
-  this.players = [new Player(this, "Alice"), new Player(this, "Bob")];
+  this.players = [new Player(this, "Alice", "green"), new Player(this, "Bob", "red")];
   this.board = new Board(this);
   this.current_player = this.players[0];
   this.state = GameState.FIRST_STAGE;
@@ -35,8 +35,8 @@ Game.prototype.check_win = function() { // to do when players are switched
 
   var winner = null;
 
-  var current_player = this.players[i];
-  var other_player = this.other_player(player);
+  var current_player = this.current_player;
+  var other_player = this.other_player(current_player);
 
   // current player has 2 pieces left or can't move
   if(current_player.pieces_on_board().length <= 2 || !current_player.can_move()) {

@@ -1,6 +1,7 @@
-function Player(game, name) {
+function Player(game, name, color) {
   this.game = game;
   this.name = name;
+  this.color = color;
 
   this.pieces = [];
   for (var i = 0; i < 9; i++) {
@@ -59,7 +60,7 @@ Player.prototype.end_turn = function() {
 };
 
 Player.prototype.place_piece_on_board = function(place) { // first stage
-  piece.place_on_board(this.pieces_to_play()[0]);
+  this.pieces_to_play()[0].place_on_board(place);
   this.end_turn();
 };
 
