@@ -3,6 +3,7 @@ function UI(game) {
   this.init_game_listeners();
   this.init_data_places();
   this.init_places_listeners();
+  this.moving_piece = null;
 }
 
 UI.prototype.$board = function() {
@@ -72,7 +73,24 @@ UI.prototype.place_listener = function($place) {
       }
       break;
     case GameState.SECOND_STAGE:
-      console.log('Place Listener: Second Stage!');
+      switch(player.state)
+      {
+        case PlayerState.HAS_TO_PLAY:
+          if (this.moving_piece) {
+            player.move_piece(this.moving_piece, place);
+            this.moving_piece = null;
+          } else if (place.piece) {
+            if (place.piece == this.moving_piece) {
+              this.moving_piece = null;
+            } else {
+              this.moving_piece = place.piece;
+            }
+          }
+          break;
+        case PlayerState.HAS_TO_CAPTURE:
+          player.capture_piece(place.piece);
+          break;
+      }
       break;
   }
 };

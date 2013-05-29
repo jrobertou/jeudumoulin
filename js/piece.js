@@ -21,6 +21,7 @@ Piece.prototype.place_on_board = function(place) {
 
 Piece.prototype.move = function(place) {
   if (this.can_move_to(place)) {
+    this.place.piece = null;
     this.place = place;
     place.piece = this;
   }

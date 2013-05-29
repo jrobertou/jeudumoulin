@@ -96,7 +96,7 @@ Player.prototype.move_piece = function(piece, place) { // second stage
     return false;
   }
 
-  if (piece && piece.can_move_to(place)) {
+  if (piece && piece.player === this && piece.can_move_to(place)) {
     piece.move(place);
 
     if(piece.forms_mill()) {
@@ -112,7 +112,7 @@ Player.prototype.capture_piece = function(piece) {
     this.state !== PlayerState.HAS_TO_CAPTURE) {
     return false;
   }
-  if (piece && piece.can_be_captured()) {
+  if (piece && piece.player !== this && piece.can_be_captured()) {
     piece.capture();
     this.end_turn();
   }
