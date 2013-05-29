@@ -46,6 +46,10 @@ Piece.prototype.can_move_to = function(place) {
   return place.is_empty() && (this.player.pieces_on_board().length <= 3 || this.place.is_adjacent_to(place));
 };
 
+Piece.prototype.can_be_captured = function() {
+  return !this.forms_mill();
+}
+
 Piece.prototype.forms_mill = function() {
   var forms_mill = false;
 
