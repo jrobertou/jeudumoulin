@@ -1,5 +1,6 @@
 function UI(game) {
   this.game = game;
+  this.players = this.game.players.slice(0); //clone
   this.init_game_listeners();
   this.init_data_places();
   this.init_places_listeners();
@@ -21,6 +22,10 @@ UI.prototype.$piece_for_place = function(place) {
 
 UI.prototype.$infos = function() {
   return $("#infos");
+};
+
+UI.prototype.remove_player = function(player) {
+  this.players.splice(this.players.indexOf(player), 1);
 };
 
 UI.prototype.init_game_listeners = function() {
@@ -58,22 +63,25 @@ UI.prototype.init_places_listeners = function() {
 UI.prototype.place_listener = function($place) {
   var place = $($place).data('place');
   var player = this.game.current_player;
-  switch(this.game.state)
+  if (this.players.indexOf(player) != -1) // not AI
   {
-    case GameState.FIRST_STAGE:
-      switch(player.state)
-      {
-        case PlayerState.HAS_TO_PLAY:
-          player.place_piece_on_board(place);
-          break;
-        case PlayerState.HAS_TO_CAPTURE:
-          player.capture_piece(place.piece);
-          break;
-      }
-      break;
-    case GameState.SECOND_STAGE:
-      console.log('Place Listener: Second Stage!');
-      break;
+    switch(this.game.state)
+    {
+      case GameState.FIRST_STAGE:
+        switch(player.state)
+        {
+          case PlayerState.HAS_TO_PLAY:
+            player.place_piece_on_board(place);
+            break;
+          case PlayerState.HAS_TO_CAPTURE:
+            player.capture_piece(place.piece);
+            break;
+        }
+        break;
+      case GameState.SECOND_STAGE:
+        console.log('Place Listener: Second Stage!');
+        break;
+    }
   }
 };
 

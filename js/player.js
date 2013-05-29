@@ -16,6 +16,8 @@ function Player(game, name, color) {
   for (var i = 0; i < 9; i++) {
     this.pieces[i] = new Piece(this.game, this);
   }
+
+  this.on_beginning_of_turn = function() {};
 }
 
 
@@ -67,6 +69,7 @@ Player.prototype.can_move = function() {
 
 Player.prototype.begin_turn = function() {
   this.state = PlayerState.HAS_TO_PLAY;
+  this.on_beginning_of_turn();
 };
 
 Player.prototype.on_mill_formed = function() {

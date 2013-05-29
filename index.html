@@ -9,6 +9,7 @@
     <script src="js/piece.js"></script>
     <script src="js/place.js"></script>
     <script src="js/ui.js"></script>
+    <script src="js/ai.js"></script>
     <script src="js/vendor/jquery-2.0.1.min.js"></script>
     <script src="js/vendor/underscore-min.js"></script>
     <style type="text/css">
@@ -54,6 +55,10 @@
     <script type="text/javascript">
       window.Game = new Game();
       window.UI = new UI(window.Game);
+
+      ai_player = window.Game.players[1];
+      window.AI = new AI(window.Game, ai_player);
+      window.UI.remove_player(ai_player);
     </script>
   </body>
 </html>
