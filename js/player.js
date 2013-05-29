@@ -18,12 +18,8 @@ function Player(game, name, color) {
   }
 
   this.on_beginning_of_turn = function() {};
+  this.on_beginning_of_capture = function() {};
 }
-
-
-Player.prototype.adding_IA = function() {
-  this.ia = new IA(this.game, this);
-};
 
 Player.prototype.pieces_to_play = function() {
   return this.pieces_filtered_by_state(PieceState.TO_PLAY);
@@ -75,6 +71,7 @@ Player.prototype.begin_turn = function() {
 Player.prototype.on_mill_formed = function() {
   this.state = PlayerState.HAS_TO_CAPTURE;
   this.game.on_mill_formed();
+  this.on_beginning_of_capture();
 };
 
 Player.prototype.end_turn = function() {
