@@ -50,6 +50,10 @@ Player.prototype.can_move = function() {
   return can_move;
 };
 
+Player.prototype.on_mill_formed = function() {
+  this.game.on_mill_formed();
+};
+
 Player.prototype.end_turn = function() {
   this.game.end_turn();
 };
@@ -63,7 +67,7 @@ Player.prototype.move_piece = function(piece, place) { // second stage
   piece.move(place);
 
   if(piece.forms_mill()) {
-
+    this.on_mill_formed();
   } else {
     this.end_turn();
   }

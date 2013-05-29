@@ -12,6 +12,7 @@ function Game() {
   this.winner = null;
   this.on_end_of_turn = function(){};
   this.on_end_of_game = function(){};
+  this.on_mill_formed = function(){};
 }
 
 Game.prototype.other_player = function(player) {
