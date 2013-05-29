@@ -1,9 +1,10 @@
-function Player(name) {
+function Player(game, name) {
+  this.game = game;
   this.name = name;
 
   this.pieces = [];
   for (var i = 0; i < 9; i++) {
-    this.pieces[i] = new Piece(this);
+    this.pieces[i] = new Piece(this.game, this);
   }
 }
 
@@ -25,8 +26,9 @@ Player.prototype.pieces_filtered_by_state = function(state) {
   for (var i = 0; i < this.pieces.length; i++) {
     piece = this.pieces[i];
 
-    if (piece.state === state)
+    if (piece.state === state) {
       pieces_to_play.push(piece);
+    }
   }
   return pieces_to_play;
 };
@@ -39,12 +41,35 @@ Player.prototype.can_move = function() {
 
   var pieces_on_board = this.pieces_on_board();
   for (var i = 0; i < pieces_on_board.length; i++) {
-    if (pieces_on_board[i].can_move() === false)
-    {
+    if (pieces_on_board[i].can_move() === false) {
       can_move = false;
       break;
     }
   }
 
   return can_move;
+};
+
+Player.prototype.end_turn = function() {
+  this.game.end_turn();
+};
+
+Player.prototype.place_piece_on_board = function(place) { // first stage
+  piece.place_on_board(this.pieces_to_play()[0]);
+  this.end_turn();
+};
+
+Player.prototype.move_piece = function(piece, place) { // second stage
+  piece.move(place);
+
+  if(piece.forms_mill()) {
+
+  } else {
+    this.end_turn();
+  }
+};
+
+Player.prototype.capture_piece = function(piece) {
+  piece.capture();
+  this.end_turn();
 };

@@ -16,10 +16,11 @@
 
 */
 
-function Board() {
+function Board(game) {
+  this.game = game;
   this.places = [];
   for (var i = 0; i < 24; i++) {
-    this.places[i] = new Place();
+    this.places[i] = new Place(this.game);
   }
   this.init_adjacent_places();
 }
