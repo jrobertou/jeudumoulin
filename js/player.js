@@ -8,6 +8,7 @@ function Player(game, name, color) {
   this.game = game;
   this.name = name;
   this.color = color;
+  this.ia = false;
 
   this.state = PlayerState.WAITING;
 
@@ -16,6 +17,11 @@ function Player(game, name, color) {
     this.pieces[i] = new Piece(this.game, this);
   }
 }
+
+
+Player.prototype.adding_IA = function() {
+  this.ia = new IA(this.game, this);
+};
 
 Player.prototype.pieces_to_play = function() {
   return this.pieces_filtered_by_state(PieceState.TO_PLAY);
