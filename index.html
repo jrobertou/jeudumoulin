@@ -3,7 +3,6 @@
     <meta charset="utf-8"></meta>
     <title>Jeu du Moulin</title>
     <script src="js/game.js"></script>
-    <script src="js/ia.js"></script>
     <script src="js/player.js"></script>
     <script src="js/board.js"></script>
     <script src="js/piece.js"></script>
@@ -59,9 +58,14 @@
       window.Game = new Game();
       window.UI = new UI(window.Game);
 
-      ai_player = window.Game.players[1];
-      window.AI = new AI(window.Game, ai_player);
-      window.UI.remove_player(ai_player);
+      ai_player_0 = window.Game.players[0];
+      window.AI1 = new AI(window.Game, ai_player_0);
+      window.UI.remove_player(ai_player_0);
+      ai_player_1 = window.Game.players[1];
+      window.AI1 = new AI(window.Game, ai_player_1);
+      window.UI.remove_player(ai_player_1);
+
+      window.Game.start();
     </script>
   </body>
 </html>

@@ -1,20 +1,25 @@
 var GameState = {
-  FIRST_STAGE: 0,
-  SECOND_STAGE: 1,
-  ENDED: 2
+  NOT_STARTED: 0,
+  FIRST_STAGE: 1,
+  SECOND_STAGE: 2,
+  ENDED: 3
 };
 
 function Game() {
   this.players = [new Player(this, "Alice", "green"), new Player(this, "Bob", "red")];
   this.board = new Board(this);
   this.current_player = this.players[0];
-  this.current_player.begin_turn();
-  this.state = GameState.FIRST_STAGE;
+  this.state = GameState.NOT_STARTED;
   this.winner = null;
   this.on_end_of_turn = function(){};
   this.on_end_of_game = function(){};
   this.on_mill_formed = function(){};
 }
+
+Game.prototype.start = function() {
+  this.state = GameState.FIRST_STAGE;
+  this.current_player.begin_turn();
+};
 
 Game.prototype.other_player = function(player) {
   var player_index = this.players.indexOf(player);

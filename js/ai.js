@@ -12,7 +12,10 @@ AI.prototype.init_player_listeners = function() {
 };
 
 AI.prototype.on_beginning_of_turn = function() {
-  this.place_random_piece();
+  var ai = this;
+  setTimeout(function() {
+    ai.place_random_piece();
+  }, 200);
 };
 
 AI.prototype.place_random_piece = function() {
