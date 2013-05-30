@@ -84,7 +84,7 @@
       }
       Settings.prototype.ai_wait_time = new Object();
       Settings.prototype.ai_wait_time.val = function() {
-        return $("#settings input#ai_wait_time").val();
+        return parseInt($("#settings input#ai_wait_time").val());
       }
       Settings.prototype.ai_wait_time.init_listener = function() {
         var ai_wait_time = this;

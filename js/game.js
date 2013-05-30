@@ -11,6 +11,7 @@ function Game() {
   this.current_player = this.players[0];
   this.state = GameState.NOT_STARTED;
   this.winner = null;
+  this.on_beginning_of_turn = function(){};
   this.on_end_of_turn = function(){};
   this.on_end_of_game = function(){};
   this.on_mill_formed = function(){};
@@ -18,7 +19,7 @@ function Game() {
 
 Game.prototype.start = function() {
   this.state = GameState.FIRST_STAGE;
-  this.current_player.begin_turn();
+  this.begin_turn();
 };
 
 Game.prototype.other_player = function(player) {
@@ -31,9 +32,13 @@ Game.prototype.other_player = function(player) {
   }
 };
 
-Game.prototype.begin_turn = function() {
+Game.prototype.switch_current_player = function() {
   this.current_player = this.other_player(this.current_player);
+};
+
+Game.prototype.begin_turn = function() {
   this.current_player.begin_turn();
+  this.on_beginning_of_turn();
 };
 
 Game.prototype.end_turn = function() {
@@ -45,10 +50,10 @@ Game.prototype.end_turn = function() {
     this.state = GameState.SECOND_STAGE;
   }
 
-  // Trigger end of turn callback
   this.on_end_of_turn();
 
-  // Begin turn
+  this.switch_current_player();
+
   this.begin_turn();
 
   // Check win or draw to potentially end the game
