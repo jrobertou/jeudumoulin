@@ -28,3 +28,36 @@ Place.prototype.empty_adjacent_places = function() {
 
   return empty_adjacent_places;
 }
+
+Place.prototype.is_adjacent_occupied_to = function() {
+	var result = [],
+		adj = this.adjacent_places;
+
+		for(var i, imax = adj.length; i <imax; i++){
+			if(adj[i].is_occupied())
+				result.push(adj[i]);
+		}
+  return result;
+};
+
+Place.prototype.calculate_nb_adjacent_occupied = function() {
+	var result = 0;
+
+	this.adjacent_places.forEach(function(placeAdj){
+		if(placeAdj.is_occupied())
+				result++;
+	});
+  return result;
+};
+
+Place.prototype.calculate_nb_adjacent_free = function() {
+	var place = this,
+		result = 0,
+		adj = place.adjacent_places;
+
+		for(var i, imax = adj.length; i <imax; i++){
+			if(adj[i].is_empty())
+				result++;
+		}
+  return result;
+};

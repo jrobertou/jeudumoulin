@@ -65,6 +65,10 @@ Piece.prototype.can_be_captured = function() {
   return !this.forms_mill();
 };
 
+Piece.prototype.calculate_nb_adjacent_free = function() {
+  return this.place.calculate_nb_adjacent_free();
+};
+
 Piece.prototype.forms_mill = function() {
   var forms_mill = false;
 
