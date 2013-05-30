@@ -1,0 +1,28 @@
+#start_buttons {
+  margin-bottom: 20px;
+}
+#settings {
+  margin-bottom: 20px;
+}
+#board {
+  font-size: 150%;
+  font-family: monospace;
+}
+#infos {
+  margin-top: 20px;
+}
+.piece {
+}
+.clickable {
+  cursor: pointer;
+}
+.green {
+  color: green;
+}
+.red {
+  color: red;
+}
+.moving {
+  font-weight: bold;
+  text-transform: uppercase;
+}
