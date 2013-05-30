@@ -26,21 +26,20 @@ AI.prototype.on_beginning_of_turn = function() {
           ai.move_random_piece();
           break;
       }
-  }, 500);
+  }, 100);
 };
 
 AI.prototype.on_beginning_of_capture = function() {
   var ai = this;
   setTimeout(function() {
-    ai.capture_random_opponent_piece();
-  }, 200);
+    ai.capture_random_piece();
+  }, 100);
 };
 
 AI.prototype.place_random_piece = function() {
-  var ai = this;
-
+  var places = this.game.board.places;
   var random_place = function() {
-    return ai.game.board.places[Math.floor(Math.random()*24)];
+    return places[Math.floor(Math.random()*places.length)];
   };
 
   var place = null;
@@ -49,12 +48,10 @@ AI.prototype.place_random_piece = function() {
   this.player.place_piece_on_board(place);
 };
 
-AI.prototype.capture_random_opponent_piece = function() {
-  var ai = this;
-
+AI.prototype.capture_random_piece = function() {
+  var opponent_pieces = this.game.other_player(this.player).pieces_on_board();
   var random_piece = function() {
-    var otherPlayerPieces = ai.game.other_player(ai.player).pieces_on_board();
-    return otherPlayerPieces[Math.floor(Math.random()*(otherPlayerPieces.length))];
+    return opponent_pieces[Math.floor(Math.random()*(opponent_pieces.length))];
   };
 
   var piece = null;
@@ -64,23 +61,26 @@ AI.prototype.capture_random_opponent_piece = function() {
 };
 
 AI.prototype.move_random_piece = function() {
-  var ai = this;
-
+  var player_pieces = this.player.pieces_on_board();
   var random_piece = function() {
-    var player_pieces = ai.player.pieces_on_board();
     return player_pieces[Math.floor(Math.random()*(player_pieces.length))];
   };
 
   var piece = null;
   while(!(piece = random_piece()).can_move()) {}
 
-  var random_adjacent_place = function() {
-    var adjacent_places = piece.place.adjacent_places;
-    return adjacent_places[Math.floor(Math.random()*(adjacent_places.length))];
+  var places = null;
+  if (this.player.pieces_on_board().length <= 3) {
+    places = this.game.board.places;
+  } else {
+    places = piece.place.adjacent_places;
+  }
+  var random_place = function() {
+    return places[Math.floor(Math.random()*(places.length))];
   };
 
   var place = null;
-  while(!(place = random_adjacent_place()).is_empty()) {}
+  while(!(place = random_place()).is_empty()) {}
 
   this.player.move_piece(piece, place);
 };
