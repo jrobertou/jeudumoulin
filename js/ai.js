@@ -30,6 +30,13 @@ AI.prototype.on_beginning_of_turn = function() {
   }, this.wait_time);
 };
 
+AI.prototype.on_beginning_of_capture = function() {
+  var ai = this;
+  setTimeout(function() {
+    ai.capture_random_piece();
+  }, 100);
+};
+
 AI.prototype.place_random_piece = function() {
   var places = this.game.board.places;
   var random_place = function() {
@@ -67,6 +74,7 @@ AI.prototype.possible_places = function() {
 };
 
 AI.prototype.move_random_piece = function() {
+  
   var player_pieces = this.player.pieces_on_board();
   var random_piece = function() {
     return player_pieces[Math.floor(Math.random()*(player_pieces.length))];
@@ -75,8 +83,7 @@ AI.prototype.move_random_piece = function() {
   var piece = null;
   while(!(piece = random_piece()).can_be_move_on().length) {}
 
-  var places =  piece.can_be_move_on(),
-    place = places[Math.floor(Math.random()*(places.length))];
+  var places =  piece.can_be_move_on();
     
-  this.player.move_piece(piece, place);
+  this.player.move_piece(piece, places[Math.floor(Math.random()*(places.length))]);
 };
