@@ -12,6 +12,9 @@
     <script src="js/vendor/jquery-2.0.1.min.js"></script>
     <script src="js/vendor/underscore-min.js"></script>
     <style type="text/css">
+      #start_buttons {
+        margin-bottom: 20px;
+      }
       #board {
         font-size: 150%;
         font-family: monospace;
@@ -38,6 +41,12 @@
   </head>
   <body>
     <!-- Ugly shit, don't look at this please! -->
+    <div id="start_buttons">
+      <button data-player0="p" data-player1="p">P v P</button>
+      <button data-player0="p" data-player1="ai">P v AI</button>
+      <button data-player0="ai" data-player1="p">AI v p</button>
+      <button data-player0="ai" data-player1="ai">AI v AI</button>
+    </div>
     <div id="board">
       <span class="place" data-index="0">[<span class="piece"> </span>]</span>------------<span class="place" data-index="1">[<span class="piece"> </span>]</span>------------<span class="place" data-index="2">[<span class="piece"> </span>]</span><br/>
       &nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br/>
@@ -58,14 +67,23 @@
       window.Game = new Game();
       window.UI = new UI(window.Game);
 
-      ai_player_0 = window.Game.players[0];
-      window.AI1 = new AI(window.Game, ai_player_0);
-      window.UI.remove_player(ai_player_0);
-      ai_player_1 = window.Game.players[1];
-      window.AI1 = new AI(window.Game, ai_player_1);
-      window.UI.remove_player(ai_player_1);
-
-      window.Game.start();
+      var player = null;
+      $("#start_buttons button").each(function() {
+        $(this).on('click', function() {
+          if ($(this).data('player0') == "ai") {
+            player = window.Game.players[0];
+            new AI(window.Game, player);
+            window.UI.remove_player(player)
+          }
+          if ($(this).data('player1') == "ai") {
+            player = window.Game.players[1];
+            new AI(window.Game, player);
+            window.UI.remove_player(player)
+          }
+          window.Game.start();
+          $("#start_buttons").css('visibility','hidden');
+        });
+      });
     </script>
   </body>
 </html>
