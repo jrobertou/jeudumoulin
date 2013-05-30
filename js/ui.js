@@ -64,41 +64,43 @@ UI.prototype.init_places_listeners = function() {
 UI.prototype.place_listener = function($place) {
   var place = $($place).data('place');
   var player = this.game.current_player;
-  switch(this.game.state)
-  {
-    case GameState.FIRST_STAGE:
-      switch(player.state)
-      {
-        case PlayerState.HAS_TO_PLAY:
-          player.place_piece_on_board(place);
-          break;
-        case PlayerState.HAS_TO_CAPTURE:
-          player.capture_piece(place.piece);
-          break;
-      }
-      break;
-    case GameState.SECOND_STAGE:
-      switch(player.state)
-      {
-        case PlayerState.HAS_TO_PLAY:
-          if (place.piece) {
-            if (place.piece == this.moving_piece) {
+  if (this.players.indexOf(player) != -1) {
+    switch(this.game.state)
+    {
+      case GameState.FIRST_STAGE:
+        switch(player.state)
+        {
+          case PlayerState.HAS_TO_PLAY:
+            player.place_piece_on_board(place);
+            break;
+          case PlayerState.HAS_TO_CAPTURE:
+            player.capture_piece(place.piece);
+            break;
+        }
+        break;
+      case GameState.SECOND_STAGE:
+        switch(player.state)
+        {
+          case PlayerState.HAS_TO_PLAY:
+            if (place.piece) {
+              if (place.piece == this.moving_piece) {
+                this.moving_piece = null;
+              } else if (place.piece.player == player) {
+                this.moving_piece = place.piece;
+              }
+              this.draw_pieces();
+            } else if (this.moving_piece) {
+              player.move_piece(this.moving_piece, place);
               this.moving_piece = null;
-            } else if (place.piece.player == player) {
-              this.moving_piece = place.piece;
+              this.draw_pieces();
             }
-            this.draw_pieces();
-          } else if (this.moving_piece) {
-            player.move_piece(this.moving_piece, place);
-            this.moving_piece = null;
-            this.draw_pieces();
-          }
-          break;
-        case PlayerState.HAS_TO_CAPTURE:
-          player.capture_piece(place.piece);
-          break;
-      }
-      break;
+            break;
+          case PlayerState.HAS_TO_CAPTURE:
+            player.capture_piece(place.piece);
+            break;
+        }
+        break;
+    }
   }
 };
 
