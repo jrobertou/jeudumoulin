@@ -123,3 +123,7 @@ Player.prototype.capture_piece = function(piece) {
     this.end_turn();
   }
 };
+
+Player.prototype.can_jump = function() {
+  return this.pieces_on_board().length <= 3;
+}

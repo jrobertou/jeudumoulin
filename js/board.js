@@ -26,6 +26,17 @@ function Board(game) {
   this.init_mill_places();
 }
 
+Board.prototype.empty_places = function() {
+  var places = this.places,
+    empty_places = [];
+
+  for (var i=0, imax=places.length; i < imax; i++) {
+    if(places[i].is_empty())
+      empty_places.push(places[i]);
+  }
+  return empty_places;
+};
+
 Board.prototype.init_adjacent_places = function() {
   this.places[0].adjacent_places  = [this.places[1],  this.places[9]];
   this.places[1].adjacent_places  = [this.places[0],  this.places[2],  this.places[4]];

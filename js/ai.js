@@ -30,13 +30,6 @@ AI.prototype.on_beginning_of_turn = function() {
   }, this.wait_time);
 };
 
-AI.prototype.on_beginning_of_capture = function() {
-  var ai = this;
-  setTimeout(function() {
-    ai.capture_random_piece();
-  }, this.wait_time);
-};
-
 AI.prototype.place_random_piece = function() {
   var places = this.game.board.places;
   var random_place = function() {
@@ -61,6 +54,18 @@ AI.prototype.capture_random_piece = function() {
   this.player.capture_piece(piece);
 };
 
+AI.prototype.top_posibilities = function() {
+  var empty_places = this.game.board.empty_places(),
+    possible_places = this.possible_places();
+
+};
+
+AI.prototype.possible_places = function() {
+  for( var i=0, imax=this.player.pieces_on_board().length; i<imax; ++i) {
+
+  }
+};
+
 AI.prototype.move_random_piece = function() {
   var player_pieces = this.player.pieces_on_board();
   var random_piece = function() {
@@ -68,20 +73,10 @@ AI.prototype.move_random_piece = function() {
   };
 
   var piece = null;
-  while(!(piece = random_piece()).can_move()) {}
+  while(!(piece = random_piece()).can_be_move_on().length) {}
 
-  var places = null;
-  if (this.player.pieces_on_board().length <= 3) {
-    places = this.game.board.places;
-  } else {
-    places = piece.place.adjacent_places;
-  }
-  var random_place = function() {
-    return places[Math.floor(Math.random()*(places.length))];
-  };
-
-  var place = null;
-  while(!(place = random_place()).is_empty()) {}
-
+  var places =  piece.can_be_move_on(),
+    place = places[Math.floor(Math.random()*(places.length))];
+    
   this.player.move_piece(piece, place);
 };

@@ -65,6 +65,24 @@ Piece.prototype.can_be_captured = function() {
   return !this.forms_mill();
 };
 
+Piece.prototype.can_be_move_on = function() {
+  var places_free = [];
+  
+  if (this.player.can_jump()){
+    return this.game.board.empty_places();
+  }
+  else{
+
+    var places = this.place.adjacent_places;
+
+    for (var i=0, imax=places.length; i<imax; i++) {
+      if(places[i].is_empty())
+        places_free.push(places[i]);
+    }
+    return places_free;
+  }
+};
+
 Piece.prototype.forms_mill = function() {
   var forms_mill = false;
 
