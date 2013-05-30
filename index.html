@@ -15,6 +15,9 @@
       #start_buttons {
         margin-bottom: 20px;
       }
+      #settings {
+        margin-bottom: 20px;
+      }
       #board {
         font-size: 150%;
         font-family: monospace;
@@ -40,14 +43,17 @@
     </style>
   </head>
   <body>
-    <!-- Ugly shit, don't look at this please! -->
     <div id="start_buttons">
       <button data-player0="p" data-player1="p">P v P</button>
       <button data-player0="p" data-player1="ai">P v AI</button>
-      <button data-player0="ai" data-player1="p">AI v p</button>
+      <button data-player0="ai" data-player1="p">AI v P</button>
       <button data-player0="ai" data-player1="ai">AI v AI</button>
     </div>
+    <div id="settings">
+      AI wait time: <input type="text" id="ai_wait_time" value="500" />
+    </div>
     <div id="board">
+      <!-- Ugly shit, don't look at this please! -->
       <span class="place" data-index="0">[<span class="piece"> </span>]</span>------------<span class="place" data-index="1">[<span class="piece"> </span>]</span>------------<span class="place" data-index="2">[<span class="piece"> </span>]</span><br/>
       &nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br/>
       &nbsp;|&nbsp;&nbsp;&nbsp;<span class="place" data-index="3">[<span class="piece"> </span>]</span>-------<span class="place" data-index="4">[<span class="piece"> </span>]</span>-------<span class="place" data-index="5">[<span class="piece"> </span>]</span>&nbsp;&nbsp;&nbsp;|<br/>
@@ -67,21 +73,58 @@
       window.Game = new Game();
       window.UI = new UI(window.Game);
 
+      var Settings = function() {
+        this.init_listeners();
+      }
+      Settings.prototype.apply = function() {
+        this.ai_wait_time.apply();
+      }
+      Settings.prototype.init_listeners = function() {
+        this.ai_wait_time.init_listener();
+      }
+      Settings.prototype.ai_wait_time = new Object();
+      Settings.prototype.ai_wait_time.val = function() {
+        return $("#settings input#ai_wait_time").val();
+      }
+      Settings.prototype.ai_wait_time.init_listener = function() {
+        var ai_wait_time = this;
+        $("#settings input#ai_wait_time").on('keyup', function() {
+          ai_wait_time.apply();
+        });
+      }
+      Settings.prototype.ai_wait_time.apply = function() {
+        var ai_wait_time = this;
+        $.each(window.AIs, function() {
+          this.wait_time = ai_wait_time.val();
+        });
+      }
+      window.Settings = new Settings();
+
+      window.AIs = [];
       var player = null;
       $("#start_buttons button").each(function() {
         $(this).on('click', function() {
           if ($(this).data('player0') == "ai") {
             player = window.Game.players[0];
-            new AI(window.Game, player);
+            window.AIs.push(new AI(window.Game, player));
             window.UI.remove_player(player)
           }
           if ($(this).data('player1') == "ai") {
             player = window.Game.players[1];
-            new AI(window.Game, player);
+            window.AIs.push(new AI(window.Game, player));
             window.UI.remove_player(player)
           }
+          window.Settings.apply();
           window.Game.start();
           $("#start_buttons").css('visibility','hidden');
+        });
+      });
+
+      $("#settings input#ai_wait_time").on('keyup', function() {
+        console.log('bla');
+        var wait_time = parseInt($(this).val());
+        $.each(window.AIs, function() {
+          this.wait_time = wait_time;
         });
       });
     </script>

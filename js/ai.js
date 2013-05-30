@@ -2,6 +2,7 @@ function AI(game, player) {
   this.game = game;
   this.player = player;
   this.init_player_listeners();
+  this.wait_time = 500;
 }
 
 AI.prototype.init_player_listeners = function() {
@@ -18,22 +19,22 @@ AI.prototype.on_beginning_of_turn = function() {
   var ai = this;
   setTimeout(function() {
     switch(ai.game.state)
-      {
-        case GameState.FIRST_STAGE:
-          ai.place_random_piece();
-          break;
-        case GameState.SECOND_STAGE:
-          ai.move_random_piece();
-          break;
-      }
-  }, 100);
+    {
+      case GameState.FIRST_STAGE:
+        ai.place_random_piece();
+        break;
+      case GameState.SECOND_STAGE:
+        ai.move_random_piece();
+        break;
+    }
+  }, this.wait_time);
 };
 
 AI.prototype.on_beginning_of_capture = function() {
   var ai = this;
   setTimeout(function() {
     ai.capture_random_piece();
-  }, 100);
+  }, this.wait_time);
 };
 
 AI.prototype.place_random_piece = function() {
