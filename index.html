@@ -119,14 +119,6 @@
           $("#start_buttons").css('visibility','hidden');
         });
       });
-
-      $("#settings input#ai_wait_time").on('keyup', function() {
-        console.log('bla');
-        var wait_time = parseInt($(this).val());
-        $.each(window.AIs, function() {
-          this.wait_time = wait_time;
-        });
-      });
     </script>
   </body>
 </html>
