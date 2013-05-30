@@ -35,8 +35,12 @@ Piece.prototype.capture = function() {
   }
 };
 
+Piece.prototype.can_be_placed_on = function(place) {
+  return place.is_empty();
+};
+
 Piece.prototype.can_move = function() {
-  if (this.player.pieces_on_board().length <= 3) {
+  if (this.player.can_jump()) {
     return true;
   }
 
@@ -53,34 +57,12 @@ Piece.prototype.can_move = function() {
   return can_move;
 };
 
-Piece.prototype.can_be_placed_on = function(place) {
-  return place.is_empty();
-};
-
 Piece.prototype.can_move_to = function(place) {
-  return place.is_empty() && (this.player.pieces_on_board().length <= 3 || this.place.is_adjacent_to(place));
+  return place.is_empty() && (this.player.can_jump() || this.place.is_adjacent_to(place));
 };
 
 Piece.prototype.can_be_captured = function() {
   return !this.forms_mill();
-};
-
-Piece.prototype.can_be_move_on = function() {
-  var places_free = [];
-  
-  if (this.player.can_jump()){
-    return this.game.board.empty_places();
-  }
-  else{
-
-    var places = this.place.adjacent_places;
-
-    for (var i=0, imax=places.length; i<imax; i++) {
-      if(places[i].is_empty())
-        places_free.push(places[i]);
-    }
-    return places_free;
-  }
 };
 
 Piece.prototype.forms_mill = function() {
@@ -105,4 +87,22 @@ Piece.prototype.forms_mill = function() {
   }
 
   return forms_mill;
+};
+
+Piece.prototype.places_movable_to = function() {
+  var places_free = [];
+
+  if (this.player.can_jump()){
+    return this.game.board.empty_places();
+  }
+  else{
+
+    var places = this.place.adjacent_places;
+
+    for (var i=0, imax=places.length; i<imax; i++) {
+      if(places[i].is_empty())
+        places_free.push(places[i]);
+    }
+    return places_free;
+  }
 };

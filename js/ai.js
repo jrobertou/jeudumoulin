@@ -34,32 +34,39 @@ AI.prototype.on_beginning_of_capture = function() {
   var ai = this;
   setTimeout(function() {
     ai.capture_random_piece();
-  }, 100);
+  }, this.wait_time);
 };
 
 AI.prototype.place_random_piece = function() {
   var places = this.game.board.places;
-  var random_place = function() {
-    return places[Math.floor(Math.random()*places.length)];
-  };
 
   var place = null;
-  while((place = random_place()).is_occupied()) {}
+  while((place = places.random_element()).is_occupied()) {}
 
   this.player.place_piece_on_board(place);
 };
 
 AI.prototype.capture_random_piece = function() {
   var opponent_pieces = this.game.other_player(this.player).pieces_on_board();
-  var random_piece = function() {
-    return opponent_pieces[Math.floor(Math.random()*(opponent_pieces.length))];
-  };
 
   var piece = null;
-  while(!(piece = random_piece()).can_be_captured()) {}
+  while(!(piece = opponent_pieces.random_element()).can_be_captured()) {}
 
   this.player.capture_piece(piece);
 };
+
+AI.prototype.move_random_piece = function() {
+  var player_pieces = this.player.pieces_on_board();
+
+  var piece = null;
+  while(!(piece = player_pieces.random_element()).can_move()) {}
+
+  var place = piece.places_movable_to().random_element();
+
+  this.player.move_piece(piece, place);
+};
+
+/* TODO
 
 AI.prototype.top_posibilities = function() {
   var empty_places = this.game.board.empty_places(),
@@ -73,17 +80,4 @@ AI.prototype.possible_places = function() {
   }
 };
 
-AI.prototype.move_random_piece = function() {
-  
-  var player_pieces = this.player.pieces_on_board();
-  var random_piece = function() {
-    return player_pieces[Math.floor(Math.random()*(player_pieces.length))];
-  };
-
-  var piece = null;
-  while(!(piece = random_piece()).can_be_move_on().length) {}
-
-  var places =  piece.can_be_move_on();
-    
-  this.player.move_piece(piece, places[Math.floor(Math.random()*(places.length))]);
-};
+*/

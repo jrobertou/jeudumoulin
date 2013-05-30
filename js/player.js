@@ -47,7 +47,7 @@ Player.prototype.pieces_filtered_by_state = function(state) {
 };
 
 Player.prototype.can_move = function() {
-  if (this.pieces_on_board().length <= 3)
+  if (this.can_jump())
     return true;
 
   var can_move = false;
@@ -61,6 +61,10 @@ Player.prototype.can_move = function() {
   }
 
   return can_move;
+};
+
+Player.prototype.can_jump = function() {
+  return this.pieces_on_board().length <= 3;
 };
 
 Player.prototype.begin_turn = function() {
@@ -123,7 +127,3 @@ Player.prototype.capture_piece = function(piece) {
     this.end_turn();
   }
 };
-
-Player.prototype.can_jump = function() {
-  return this.pieces_on_board().length <= 3;
-}
