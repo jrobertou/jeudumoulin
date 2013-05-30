@@ -16,3 +16,15 @@ Place.prototype.is_empty = function() {
 Place.prototype.is_adjacent_to = function(place) {
   return this.adjacent_places.indexOf(place) != -1;
 };
+
+Place.prototype.empty_adjacent_places = function() {
+  var empty_adjacent_places = [];
+
+  this.adjacent_places.forEach(function(place) {
+    if(place.is_empty()) {
+      empty_adjacent_places.push(place);
+    }
+  });
+
+  return empty_adjacent_places;
+}

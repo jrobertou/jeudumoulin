@@ -90,19 +90,13 @@ Piece.prototype.forms_mill = function() {
 };
 
 Piece.prototype.places_movable_to = function() {
-  var places_free = [];
+  var places_movable_to = null;
 
-  if (this.player.can_jump()){
-    return this.game.board.empty_places();
+  if (this.player.can_jump()) {
+    places_movable_to = this.game.board.empty_places();
+  } else {
+    places_movable_to = this.place.empty_adjacent_places();
   }
-  else{
 
-    var places = this.place.adjacent_places;
-
-    for (var i=0, imax=places.length; i<imax; i++) {
-      if(places[i].is_empty())
-        places_free.push(places[i]);
-    }
-    return places_free;
-  }
+  return places_movable_to;
 };

@@ -35,14 +35,11 @@ Player.prototype.captured_pieces = function() {
 
 Player.prototype.pieces_filtered_by_state = function(state) {
   var filtered_pieces = [];
-  var piece = null;
-  for (var i = 0; i < this.pieces.length; i++) {
-    piece = this.pieces[i];
-
+  this.pieces.forEach(function(piece) {
     if (piece.state === state) {
       filtered_pieces.push(piece);
     }
-  }
+  });
   return filtered_pieces;
 };
 

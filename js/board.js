@@ -27,13 +27,14 @@ function Board(game) {
 }
 
 Board.prototype.empty_places = function() {
-  var places = this.places,
-    empty_places = [];
+  var empty_places = [];
 
-  for (var i=0, imax=places.length; i < imax; i++) {
-    if(places[i].is_empty())
-      empty_places.push(places[i]);
-  }
+  this.places.forEach(function(place) {
+    if (place.is_empty()) {
+      empty_places.push(place);
+    }
+  });
+
   return empty_places;
 };
 
