@@ -17,14 +17,17 @@
     </style>
   </head>
   <body>
-    <div id="start_buttons">
-      <button data-player0="p" data-player1="p">P v P</button>
-      <button data-player0="p" data-player1="ai">P v AI</button>
-      <button data-player0="ai" data-player1="p">AI v P</button>
-      <button data-player0="ai" data-player1="ai">AI v AI</button>
-    </div>
-    <div id="settings">
-      AI wait time: <input type="text" id="ai_wait_time" value="500" />
+    <div id="menu">
+      <div id="start_buttons">
+        <button data-player0="p" data-player1="p">P v P</button>
+        <button data-player0="p" data-player1="ai">P v AI</button>
+        <button data-player0="ai" data-player1="p">AI v P</button>
+        <button data-player0="ai" data-player1="ai">AI v AI</button>
+      </div>
+      <button id="reset_button">Reset</button>
+      <div id="settings">
+        AI wait time: <input type="text" id="ai_wait_time" value="500" />
+      </div>
     </div>
     <div id="board">
       <!-- Ugly shit, don't look at this please! -->

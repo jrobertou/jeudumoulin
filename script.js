@@ -1,5 +1,6 @@
 window.Game = new Game();
 window.UI = new UI(window.Game);
+window.Game.init();
 
 var Settings = function() {
   this.init_listeners();
@@ -46,5 +47,13 @@ $("#start_buttons button").each(function() {
     window.Settings.apply();
     window.Game.start();
     $("#start_buttons").css('visibility','hidden');
+    $("#reset_button").css('visibility', 'visible');
   });
 });
+$("#reset_button").on('click', function() {
+  window.Game.reset();
+  $("#reset_button").css('visibility', 'hidden');
+  $("#start_buttons").css('visibility', 'visible');
+});
+
+$("#reset_button").css('visibility', 'hidden');
