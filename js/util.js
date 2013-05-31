@@ -35,7 +35,7 @@ Array.prototype.max_rank_pieces_array = function() {
 		array_retrun = [],
 		rankMaxValue = array_pieceplace_rank[0].rank;
 
-	while(rankMaxValue == array_pieceplace_rank[i].rank){
+	while(rankMaxValue == array_pieceplace_rank[i].rank && i < array_pieceplace_rank.length){
 		array_retrun.push(array_pieceplace_rank[i]);
 		++i;
 	}
