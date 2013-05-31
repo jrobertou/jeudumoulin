@@ -57,6 +57,25 @@ Piece.prototype.can_move = function() {
   return can_move;
 };
 
+Piece.prototype.array_where_can_move = function() {
+
+  if (this.player.can_jump()) {
+    return this.place.adjacent_places;
+  }
+
+  var can_move = [];
+
+  var adjacent_places = this.place.adjacent_places;
+  for (var i = 0; i < adjacent_places.length; i++) {
+    if (adjacent_places[i].is_empty()) {
+      can_move.push(adjacent_places[i]);
+      break;
+    }
+  }
+
+  return can_move;
+};
+
 Piece.prototype.can_move_to = function(place) {
   return place.is_empty() && (this.player.can_jump() || this.place.is_adjacent_to(place));
 };

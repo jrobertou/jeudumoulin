@@ -29,8 +29,8 @@ AI.prototype.on_beginning_of_turn = function() {
         //ai.place_random_piece();
         break;
       case GameState.SECOND_STAGE:
-        //ai.best_move();
-        ai.move_random_piece();
+        ai.best_move();
+        //ai.move_random_piece();
         break;
     }
   }, ai.wait_time);
@@ -82,39 +82,40 @@ AI.prototype.move_random_piece = function() {
 // TRUE AI Part //
 //
 AI.prototype.best_placement = function() {
-  this.player.place_piece_on_board(this.get_place_with_max_adj_occupied());
+  this.player.place_piece_on_board(this.get_place_with_max_adj_occupied(this.game.board.empty_places()).place);
 };
 
 AI.prototype.best_move = function() {
-  var ai = this;
-  var best_piece = ai.get_piece_with_less_adj_occupied(),
-    best_place = ai.get_place_with_max_adj_occupied();
 
-  this.player.move_piece(best_piece, best_place);
+  var short_by_rank = this.best_move_sort_by_rank();
+
+  this.player.move_piece(short_by_rank.piece, short_by_rank.place);
 };
 
-//return PIÈCE with the min number of adjacent free
-AI.prototype.get_piece_with_less_adj_occupied = function() {
-  var possible_pieces = this.player.pieces_on_board(),
-    candidat,
-    nbAdjCandidat;
+//return random place/piece in max rank
+AI.prototype.best_move_sort_by_rank = function() {
+  var ai = this,
+    possible_pieces = this.player.pieces_on_board(),
+    candidats = [],
+    place_rank_foo = null,
+    possible_places = null;
 
-  var piece_with_less_adj_free = {piece: possible_pieces[0], nbAdjacent: possible_pieces[0].calculate_nb_adjacent_free()};
+  possible_pieces.forEach(function(piece){
+    
+    possible_places = piece.array_where_can_move();
 
-  for( var i=1, imax=possible_pieces.length; i<imax; ++i) {
+      if(possible_places.length){
+        place_rank_foo = ai.get_place_with_max_adj_occupied(possible_places);
+        candidats.push({piece: piece, place: place_rank_foo.place, rank: place_rank_foo.rank});
+      }
+  });
 
-    candidat = possible_pieces[i];
-    nbAdjCandidat = possible_pieces[i].calculate_nb_adjacent_free_to();
-
-    if(piece_with_less_adj_free.nbAdjacent > nbAdjCandidat)
-      piece_with_less_adj_free = {piece: candidat, nbAdjacent: nbAdjCandidat};
-  }
-  return piece_with_less_adj_free.piece;
+  return candidats.max_rank_pieces_array().random_element();
 };
 
-//return PLACE with the max number of adjacent occupied
-AI.prototype.get_place_with_max_adj_occupied = function() {
-  var possible_places = this.game.board.empty_places(),
+//return PLACE and RANK (nb adjacent) with the max number of adjacent occupied
+AI.prototype.get_place_with_max_adj_occupied = function(tab_of_place) {
+  var possible_places = tab_of_place,
     tab_with_rank = [],
     candidat,
     nbAdjCandidat;
@@ -130,7 +131,7 @@ AI.prototype.get_place_with_max_adj_occupied = function() {
 
     tab_with_rank[nbAdjCandidat].push(candidat);
   }
-  var length = tab_with_rank.length-1;
+  var rank = tab_with_rank.length-1;
 
-  return tab_with_rank[length].random_element();
+  return {place: tab_with_rank[rank].random_element(), rank:rank};
 };
