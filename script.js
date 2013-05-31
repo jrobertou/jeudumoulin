@@ -32,16 +32,24 @@ window.Settings = new Settings();
 
 window.AIs = [];
 var player = null;
+var ai = null;
+var behavior = null;
 $("#start_buttons button").each(function() {
   $(this).on('click', function() {
     if ($(this).data('player0') == "ai") {
       player = window.Game.players[0];
-      window.AIs.push(new AI(window.Game, player));
+      ai = new AI(window.Game, player);
+      behavior = new AIBehaviors.Proximity();
+      behavior.attach(ai);
+      window.AIs.push(ai);
       window.UI.remove_player(player);
     }
     if ($(this).data('player1') == "ai") {
       player = window.Game.players[1];
-      window.AIs.push(new AI(window.Game, player));
+      ai = new AI(window.Game, player);
+      behavior = new AIBehaviors.Proximity();
+      behavior.attach(ai);
+      window.AIs.push(ai);
       window.UI.remove_player(player);
     }
     window.Settings.apply();
