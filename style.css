@@ -1,24 +1,98 @@
-#menu {
-  margin-bottom: 20px;
+body {
+  font-family: sans-serif;
+  font-size: 0.9em;
 }
-#board {
+
+p {
+  margin: 0;
+}
+
+.content {
+  position: relative;
+  width: 780px;
+  height: 100%;
+  margin: auto;
+}
+
+.infos {
+  width: 390px;
+  height: 60px;
+  border: 1px solid #eee;
+  margin-bottom: 20px;
+  padding-left: 10px;
+  vertical-align: middle;
+}
+.infos p {
+  line-height: 30px;
+}
+
+.board-container {
+  width: 400px;
+}
+.board {
+  display: table;
+  margin: 0 auto;
   font-size: 150%;
   font-family: monospace;
 }
-#infos {
+
+.menu {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-left: 20px;
+  width: 360px;
+  margin-bottom: 20px;
+}
+
+.menu .controls {
+  text-align: center;
+}
+.menu .controls button {
+  padding: 6px 8px;
+}
+.menu .controls > button:not(:first-child) {
+  margin-left: 20px;
+}
+
+.menu .players {
   margin-top: 20px;
 }
-.piece {
+.menu .players .player {
+  width: 46%;
+  float: left;
 }
+.menu .players .player p {
+  margin-bottom: 5px;
+  text-align: center;
+  padding-left: 0;
+}
+.menu .players .player label {
+  padding-left: 20px;
+}
+.menu .players > .player:first-child {
+  margin-right: 8%;
+}
+
+.menu .ai_wait_time {
+  width: 50px;
+}
+
+/*.piece {
+}*/
+
 .clickable {
   cursor: pointer;
 }
+
 .green {
   color: green;
 }
+
 .red {
   color: red;
 }
+
 .moving {
   font-weight: bold;
   text-transform: uppercase;

@@ -1,67 +1,39 @@
-window.Game = new Game();
-window.UI = new UI(window.Game);
-window.Game.init();
+$(function() {
+  window.game = new Game();
+  window.ui = new UI(window.game, "#board", "#infos", ".place");
+  window.game.init();
+  window.settings = new Settings();
 
-var Settings = function() {
-  this.init_listeners();
-};
+  var player = null;
+  var type = null;
+  var ai = null;
+  var behavior = null;
+  $("#start").on('click', function() {
+    $(".players .player").each(function(i) {
+      player = window.game.players[i];
 
-Settings.prototype.apply = function() {
-  this.ai_wait_time.apply();
-};
-Settings.prototype.init_listeners = function() {
-  this.ai_wait_time.init_listener();
-};
-Settings.prototype.ai_wait_time = {};
-Settings.prototype.ai_wait_time.val = function() {
-  return parseInt($("#settings input#ai_wait_time").val(), 10);
-};
-Settings.prototype.ai_wait_time.init_listener = function() {
-  var ai_wait_time = this;
-  $("#settings input#ai_wait_time").on('keyup', function() {
-    ai_wait_time.apply();
+      type = $(this).find("input[type='radio']:checked").val();
+
+      if (type !== 'human') {
+        ai = new AI(window.game, player);
+        behavior = new AIBehaviors[type]();
+        behavior.attach(ai);
+        window.ui.remove_player(player);
+        $(this).data('ai', ai);
+      } else {
+        $(this).data('ai', null);
+      }
+    });
+
+    window.settings.apply();
+    window.game.start();
+    $("#start").attr('disabled', '');
+    $("#reset").removeAttr('disabled');
   });
-};
-Settings.prototype.ai_wait_time.apply = function() {
-  var ai_wait_time = this;
-  $.each(window.AIs, function() {
-    this.wait_time = ai_wait_time.val();
-  });
-};
-window.Settings = new Settings();
 
-window.AIs = [];
-var player = null;
-var ai = null;
-var behavior = null;
-$("#start_buttons button").each(function() {
-  $(this).on('click', function() {
-    if ($(this).data('player0') == "ai") {
-      player = window.Game.players[0];
-      ai = new AI(window.Game, player);
-      behavior = new AIBehaviors.Proximity();
-      behavior.attach(ai);
-      window.AIs.push(ai);
-      window.UI.remove_player(player);
-    }
-    if ($(this).data('player1') == "ai") {
-      player = window.Game.players[1];
-      ai = new AI(window.Game, player);
-      behavior = new AIBehaviors.Proximity();
-      behavior.attach(ai);
-      window.AIs.push(ai);
-      window.UI.remove_player(player);
-    }
-    window.Settings.apply();
-    window.Game.start();
-    $("#start_buttons").css('visibility','hidden');
-    $("#reset_button").css('visibility', 'visible');
+  $("#reset").on('click', function() {
+    window.game.reset();
+    $("#reset").attr('disabled', '');
+    $("#start").removeAttr('disabled');
   });
 });
-$("#reset_button").on('click', function() {
-  window.Game.reset();
-  $("#reset_button").css('visibility', 'hidden');
-  $("#start_buttons").css('visibility', 'visible');
-});
-
-$("#reset_button").css('visibility', 'hidden');

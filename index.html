@@ -15,40 +15,63 @@
     <script src="lib/util.js"></script>
     <script src="vendor/jquery-2.0.1.min.js"></script>
     <script src="vendor/underscore-min.js"></script>
+    <script src="settings.js"></script>
+    <script src="script.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css"></link>
-    <style type="text/css">
-    </style>
   </head>
   <body>
-    <div id="menu">
-      <div id="start_buttons">
-        <button data-player0="p" data-player1="p">P v P</button>
-        <button data-player0="p" data-player1="ai">P v AI</button>
-        <button data-player0="ai" data-player1="p">AI v P</button>
-        <button data-player0="ai" data-player1="ai">AI v AI</button>
+    <div class="content">
+      <div id="menu" class="menu">
+        <div class="controls">
+          <button id="start">Start</button>
+          <button id="reset" disabled>Reset</button>
+        </div>
+        <div class="players">
+          <div class="player">
+            <p class="green">Alicia</p>
+            <label><input type="radio" name="type_player0" value="human" checked>Human</label><br>
+            <label><input type="radio" name="type_player0" value="Random">AI Random</label><br>
+            <label><input type="radio" name="type_player0" value="Proximity">AI Proximity</label><br><br>
+            <label>AI Wait Time: <input type="text" class="ai_wait_time" value="500" /></label>
+          </div>
+          <div class="player" data-color="red">
+            <p class="red">Bob</p>
+            <label><input type="radio" name="type_player1" value="human" checked>Human</label><br>
+            <label><input type="radio" name="type_player1" value="Random">AI Random</label><br>
+            <label><input type="radio" name="type_player1" value="Proximity">AI Proximity</label><br><br>
+            <label>AI Wait Time: <input type="text" class="ai_wait_time" value="500" /></label>
+          </div>
+        </div>
+<!--         <div id="start_buttons">
+          <button data-player0="p" data-player1="p">P v P</button>
+          <button data-player0="p" data-player1="ai">P v AI</button>
+          <button data-player0="ai" data-player1="p">AI v P</button>
+          <button data-player0="ai" data-player1="ai">AI v AI</button>
+        </div>
+ -->        <!-- <button id="reset_button">Reset</button>
+        <div id="settings">
+          AI wait time: <input type="text" id="ai_wait_time" value="500" />
+        </div> -->
       </div>
-      <button id="reset_button">Reset</button>
-      <div id="settings">
-        AI wait time: <input type="text" id="ai_wait_time" value="500" />
+      <div id="infos" class="infos"></div>
+      <div class="board-container">
+        <div id="board" class="board">
+          <!-- Ugly shit, don't look at this please! -->
+          <span class="place">[<span class="piece"> </span>]</span>------------<span class="place">[<span class="piece"> </span>]</span>------------<span class="place">[<span class="piece"> </span>]</span><br/>
+          &nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br/>
+          &nbsp;|&nbsp;&nbsp;&nbsp;<span class="place">[<span class="piece"> </span>]</span>-------<span class="place">[<span class="piece"> </span>]</span>-------<span class="place">[<span class="piece"> </span>]</span>&nbsp;&nbsp;&nbsp;|<br/>
+          &nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|<br/>
+          &nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<span class="place">[<span class="piece"> </span>]</span>--<span class="place">[<span class="piece"> </span>]</span>--<span class="place">[<span class="piece"> </span>]</span>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|<br/>
+          &nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|<br/>
+          <span class="place">[<span class="piece"> </span>]</span>--<span class="place">[<span class="piece"> </span>]</span>--<span class="place">[<span class="piece"> </span>]</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="place">[<span class="piece"> </span>]</span>--<span class="place">[<span class="piece"> </span>]</span>--<span class="place">[<span class="piece"> </span>]</span><br/>
+          &nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|<br/>
+          &nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<span class="place">[<span class="piece"> </span>]</span>--<span class="place">[<span class="piece"> </span>]</span>--<span class="place">[<span class="piece"> </span>]</span>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|<br/>
+          &nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|<br/>
+          &nbsp;|&nbsp;&nbsp;&nbsp;<span class="place">[<span class="piece"> </span>]</span>-------<span class="place">[<span class="piece"> </span>]</span>-------<span class="place">[<span class="piece"> </span>]</span>&nbsp;&nbsp;&nbsp;|<br/>
+          &nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br/>
+          <span class="place">[<span class="piece"> </span>]</span>------------<span class="place">[<span class="piece"> </span>]</span>------------<span class="place">[<span class="piece"> </span>]</span><br/>
+        </div>
       </div>
     </div>
-    <div id="board">
-      <!-- Ugly shit, don't look at this please! -->
-      <span class="place" data-index="0">[<span class="piece"> </span>]</span>------------<span class="place" data-index="1">[<span class="piece"> </span>]</span>------------<span class="place" data-index="2">[<span class="piece"> </span>]</span><br/>
-      &nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br/>
-      &nbsp;|&nbsp;&nbsp;&nbsp;<span class="place" data-index="3">[<span class="piece"> </span>]</span>-------<span class="place" data-index="4">[<span class="piece"> </span>]</span>-------<span class="place" data-index="5">[<span class="piece"> </span>]</span>&nbsp;&nbsp;&nbsp;|<br/>
-      &nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|<br/>
-      &nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<span class="place" data-index="6">[<span class="piece"> </span>]</span>--<span class="place" data-index="7">[<span class="piece"> </span>]</span>--<span class="place" data-index="8">[<span class="piece"> </span>]</span>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|<br/>
-      &nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|<br/>
-      <span class="place" data-index="9">[<span class="piece"> </span>]</span>--<span class="place" data-index="10">[<span class="piece"> </span>]</span>--<span class="place" data-index="11">[<span class="piece"> </span>]</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="place" data-index="12">[<span class="piece"> </span>]</span>--<span class="place" data-index="13">[<span class="piece"> </span>]</span>--<span class="place" data-index="14">[<span class="piece"> </span>]</span><br/>
-      &nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|<br/>
-      &nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<span class="place" data-index="15">[<span class="piece"> </span>]</span>--<span class="place" data-index="16">[<span class="piece"> </span>]</span>--<span class="place" data-index="17">[<span class="piece"> </span>]</span>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|<br/>
-      &nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|<br/>
-      &nbsp;|&nbsp;&nbsp;&nbsp;<span class="place" data-index="18">[<span class="piece"> </span>]</span>-------<span class="place" data-index="19">[<span class="piece"> </span>]</span>-------<span class="place" data-index="20">[<span class="piece"> </span>]</span>&nbsp;&nbsp;&nbsp;|<br/>
-      &nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br/>
-      <span class="place" data-index="21">[<span class="piece"> </span>]</span>------------<span class="place" data-index="22">[<span class="piece"> </span>]</span>------------<span class="place" data-index="23">[<span class="piece"> </span>]</span><br/>
-    </div>
-    <div id="infos"></div>
-    <script src="script.js"></script>
   </body>
 </html>
