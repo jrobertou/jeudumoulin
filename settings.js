@@ -13,21 +13,27 @@ Settings.prototype.init_listeners = function() {
 Settings.prototype.ai_wait_time = {};
 Settings.prototype.ai_wait_time.init_listener = function() {
   var ai_wait_time = this;
-  $("input.ai_wait_time").on('keyup', function() {
+  $(".ai_wait_time input").on('change keyup', function() {
     ai_wait_time.apply(this);
   });
 };
 Settings.prototype.ai_wait_time.apply = function() {
   var ai_wait_time = this;
-  $("input.ai_wait_time").each(function() {
+  $(".ai_wait_time input[type='text']").each(function() {
     ai_wait_time.apply_one($(this));
   });
 };
 Settings.prototype.ai_wait_time.apply_one = function($input) {
-  var val = parseInt($input.val(), 10);
-  var ai = $input.closest(".player").data('ai');
+  var $player = $input.closest(".player");
+  var $checkbox = $player.find('input[type="checkbox"]');
+  var $benchmark = $(".benchmark");
+  var ai = $player.data('ai');
 
-  if (ai !== null) {
-    ai.wait_time = val;
+  if (ai) {
+    if (!$benchmark.is(":checked") && $checkbox.is(":checked")) {
+      ai.wait_time = parseInt($input.val(), 10);
+    } else {
+      ai.wait_time = 0;
+    }
   }
 };

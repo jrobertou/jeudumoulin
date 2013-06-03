@@ -1,4 +1,8 @@
 body {
+  margin-top: 20px;
+}
+
+body, table {
   font-family: sans-serif;
   font-size: 0.9em;
 }
@@ -59,27 +63,51 @@ p {
   margin-top: 20px;
 }
 .menu .players .player {
-  width: 46%;
+  width: 170px;
   float: left;
 }
-.menu .players .player p {
+.menu .players > .player:first-child {
+  padding-right: 9px;
+  border-right: 1px solid #ddd;
+}
+.menu .players > .player:not(:first-child) {
+  padding-left: 10px;
+}
+.menu .players .player h4 {
   margin-bottom: 5px;
   text-align: center;
   padding-left: 0;
 }
-.menu .players .player label {
-  padding-left: 20px;
-}
-.menu .players > .player:first-child {
-  margin-right: 8%;
+.menu .players .player .ai_wait_time input[type="text"] {
+  width: 45px;
 }
 
-.menu .ai_wait_time {
-  width: 50px;
+.settings {
+  margin-top: 40px;
 }
 
-/*.piece {
-}*/
+.stats {
+  clear: both;
+  margin-top: 30px;
+}
+.stats h4 {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+.stats h4 span.small {
+  font-size: 0.9em;
+}
+.stats h4 span.reset {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.stats table {
+  width: 100%;
+  text-align: center;
+}
+.stats td {
+  width: 33%;
+}
 
 .clickable {
   cursor: pointer;
@@ -96,4 +124,12 @@ p {
 .moving {
   font-weight: bold;
   text-transform: uppercase;
+}
+
+.clearfix:before, .clearfix:after {
+  content: " ";
+  display: table;
+}
+.clearfix:after {
+  clear: both;
 }

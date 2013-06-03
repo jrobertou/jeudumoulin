@@ -17,6 +17,7 @@
     <script src="vendor/underscore-min.js"></script>
     <script src="settings.js"></script>
     <script src="script.js"></script>
+    <link rel="stylesheet" type="text/css" href="vendor/reset.css"></link>
     <link rel="stylesheet" type="text/css" href="style.css"></link>
   </head>
   <body>
@@ -26,32 +27,50 @@
           <button id="start">Start</button>
           <button id="reset" disabled>Reset</button>
         </div>
-        <div class="players">
+        <div class="players clearfix">
           <div class="player">
-            <p class="green">Alicia</p>
-            <label><input type="radio" name="type_player0" value="human" checked>Human</label><br>
-            <label><input type="radio" name="type_player0" value="Random">AI Random</label><br>
-            <label><input type="radio" name="type_player0" value="Proximity">AI Proximity</label><br><br>
-            <label>AI Wait Time: <input type="text" class="ai_wait_time" value="500" /></label>
+            <h4 class="green">Alicia</h4>
+            <div class="type">
+              <label><input type="radio" name="type_player0" value="human" checked>Human</label><br>
+              <label><input type="radio" name="type_player0" value="Random">AI Random</label><br>
+              <label><input type="radio" name="type_player0" value="Proximity">AI Proximity</label><br><br>
+            </div>
+            <div class="ai_wait_time">
+              <label><input type="checkbox" checked>
+              AI Wait Time:</label> <input type="text" value="500" />
+            </div>
           </div>
           <div class="player" data-color="red">
-            <p class="red">Bob</p>
-            <label><input type="radio" name="type_player1" value="human" checked>Human</label><br>
-            <label><input type="radio" name="type_player1" value="Random">AI Random</label><br>
-            <label><input type="radio" name="type_player1" value="Proximity">AI Proximity</label><br><br>
-            <label>AI Wait Time: <input type="text" class="ai_wait_time" value="500" /></label>
+            <h4 class="red">Bob</h4>
+            <div class="type">
+              <label><input type="radio" name="type_player1" value="human" checked>Human</label><br>
+              <label><input type="radio" name="type_player1" value="Random">AI Random</label><br>
+              <label><input type="radio" name="type_player1" value="Proximity">AI Proximity</label><br><br>
+            </div>
+            <div class="ai_wait_time">
+              <label><input type="checkbox" checked>
+              AI Wait Time:</label> <input type="text" value="500" />
+            </div>
           </div>
         </div>
-<!--         <div id="start_buttons">
-          <button data-player0="p" data-player1="p">P v P</button>
-          <button data-player0="p" data-player1="ai">P v AI</button>
-          <button data-player0="ai" data-player1="p">AI v P</button>
-          <button data-player0="ai" data-player1="ai">AI v AI</button>
+        <div class="settings">
+          <label><input type="checkbox" class="benchmark" /> Benchmark mode</label>
         </div>
- -->        <!-- <button id="reset_button">Reset</button>
-        <div id="settings">
-          AI wait time: <input type="text" id="ai_wait_time" value="500" />
-        </div> -->
+        <div class="stats">
+          <h4>Statistics : <span class="games">0</span> games <span class="small">(<span class="reset">reset</span>)</span></h4>
+          <table>
+            <tr>
+              <td><p><span class="green">Alicia</span></p></td>
+              <td>Draw</td>
+              <td><span class="red">Bob</span></td>
+            </tr>
+            <tr>
+              <td><span class="player0">0</span></td>
+              <td><span class="draw">0</span></td>
+              <td><span class="player1">0</span></td>
+            </tr>
+          </table>
+        </div>
       </div>
       <div id="infos" class="infos"></div>
       <div class="board-container">
