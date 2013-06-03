@@ -12,9 +12,11 @@
     <script src="lib/place.js"></script>
     <script src="lib/player.js"></script>
     <script src="lib/ui.js"></script>
+    <script src="lib/ui/board_canvas.js"></script>
     <script src="lib/util.js"></script>
     <script src="vendor/jquery-2.0.1.min.js"></script>
     <script src="vendor/underscore-min.js"></script>
+    <script src="vendor/raphael-min.js"></script>
     <script src="settings.js"></script>
     <script src="script.js"></script>
     <link rel="stylesheet" type="text/css" href="vendor/reset.css"></link>
@@ -29,7 +31,7 @@
         </div>
         <div class="players clearfix">
           <div class="player">
-            <h4 class="green">Alicia</h4>
+            <h4 class="green">Alice</h4>
             <div class="type">
               <label><input type="radio" name="type_player0" value="human" checked>Human</label><br>
               <label><input type="radio" name="type_player0" value="Random">AI Random</label><br>
@@ -60,7 +62,7 @@
           <h4>Statistics : <span class="games">0</span> games <span class="small">(<span class="reset">reset</span>)</span></h4>
           <table>
             <tr>
-              <td><p><span class="green">Alicia</span></p></td>
+              <td><p><span class="green">Alice</span></p></td>
               <td>Draw</td>
               <td><span class="red">Bob</span></td>
             </tr>
@@ -73,24 +75,7 @@
         </div>
       </div>
       <div id="infos" class="infos"></div>
-      <div class="board-container">
-        <div id="board" class="board">
-          <!-- Ugly shit, don't look at this please! -->
-          <span class="place">[<span class="piece"> </span>]</span>------------<span class="place">[<span class="piece"> </span>]</span>------------<span class="place">[<span class="piece"> </span>]</span><br/>
-          &nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br/>
-          &nbsp;|&nbsp;&nbsp;&nbsp;<span class="place">[<span class="piece"> </span>]</span>-------<span class="place">[<span class="piece"> </span>]</span>-------<span class="place">[<span class="piece"> </span>]</span>&nbsp;&nbsp;&nbsp;|<br/>
-          &nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|<br/>
-          &nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<span class="place">[<span class="piece"> </span>]</span>--<span class="place">[<span class="piece"> </span>]</span>--<span class="place">[<span class="piece"> </span>]</span>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|<br/>
-          &nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|<br/>
-          <span class="place">[<span class="piece"> </span>]</span>--<span class="place">[<span class="piece"> </span>]</span>--<span class="place">[<span class="piece"> </span>]</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="place">[<span class="piece"> </span>]</span>--<span class="place">[<span class="piece"> </span>]</span>--<span class="place">[<span class="piece"> </span>]</span><br/>
-          &nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|<br/>
-          &nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<span class="place">[<span class="piece"> </span>]</span>--<span class="place">[<span class="piece"> </span>]</span>--<span class="place">[<span class="piece"> </span>]</span>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|<br/>
-          &nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|<br/>
-          &nbsp;|&nbsp;&nbsp;&nbsp;<span class="place">[<span class="piece"> </span>]</span>-------<span class="place">[<span class="piece"> </span>]</span>-------<span class="place">[<span class="piece"> </span>]</span>&nbsp;&nbsp;&nbsp;|<br/>
-          &nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br/>
-          <span class="place">[<span class="piece"> </span>]</span>------------<span class="place">[<span class="piece"> </span>]</span>------------<span class="place">[<span class="piece"> </span>]</span><br/>
-        </div>
-      </div>
+      <div id="board" class="board"></div>
     </div>
   </body>
 </html>

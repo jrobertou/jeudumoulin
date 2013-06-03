@@ -1,5 +1,6 @@
 body {
   margin-top: 20px;
+  color: #111;
 }
 
 body, table {
@@ -30,14 +31,9 @@ p {
   line-height: 30px;
 }
 
-.board-container {
-  width: 400px;
-}
 .board {
-  display: table;
-  margin: 0 auto;
-  font-size: 150%;
-  font-family: monospace;
+  width: 400px;
+  height: 400px;
 }
 
 .menu {

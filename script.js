@@ -1,6 +1,8 @@
 $(function() {
+  window.board_canvas = new BoardCanvas("board", 400, 400);
+
   window.game = new Game();
-  window.ui = new UI(window.game, "#board", "#infos", ".place");
+  window.ui = new UI(window.game, window.board_canvas);
   window.game.init();
   window.settings = new Settings();
 

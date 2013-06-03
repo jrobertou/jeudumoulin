@@ -13,7 +13,7 @@ Settings.prototype.init_listeners = function() {
 Settings.prototype.ai_wait_time = {};
 Settings.prototype.ai_wait_time.init_listener = function() {
   var ai_wait_time = this;
-  $(".ai_wait_time input").on('change keyup', function() {
+  $(".ai_wait_time input, .benchmark").on('change keyup', function() {
     ai_wait_time.apply(this);
   });
 };
