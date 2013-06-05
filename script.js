@@ -28,7 +28,10 @@ $(function() {
     });
 
     window.settings.apply();
-    window.game.start();
+
+    _.defer(function() { // fixes game state inconsistency on benchmark mode for whatever reason...
+      window.game.start();
+    });
     $("#start").attr('disabled', '');
     $("#reset").removeAttr('disabled');
   });
